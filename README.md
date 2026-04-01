@@ -33,6 +33,8 @@ These were my exploratory blog posts about this topic (using custom tags to gene
 * [Using ColdFusion Custom Tags To Create An HTML Email DSL In Lucee CFML 5.3.7.47, Part IV](https://www.bennadel.com/blog/3982-using-coldfusion-custom-tags-to-create-an-html-email-dsl-in-lucee-cfml-5-3-7-47-part-iv.htm)
 * [Using ColdFusion Custom Tags To Create An HTML Email DSL In Lucee CFML 5.3.7.47, Part III](https://www.bennadel.com/blog/3981-using-coldfusion-custom-tags-to-create-an-html-email-dsl-in-lucee-cfml-5-3-7-47-part-iii.htm)
 * [Using ColdFusion Custom Tags To Create An HTML Email DSL In Lucee CFML 5.3.7.47, Part II](https://www.bennadel.com/blog/3979-using-coldfusion-custom-tags-to-create-an-html-email-dsl-in-lucee-cfml-5-3-7-47-part-ii.htm)
+* [Using ColdFusion Custom Tags To Create An HTML Email DSL In Lucee CFML 5.3.7.47, Part I](https://www.bennadel.com/blog/3975-using-coldfusion-custom-tags-to-create-an-html-email-dsl-in-lucee-cfml-5-3-7-47.htm)
+
 * [Adobe ColdFusion 2018 Compatible Version Of My ColdFusion Custom Tag DSL For HTML Emails](https://www.bennadel.com/blog/4064-adobe-coldfusion-2018-compatible-version-of-my-coldfusion-custom-tag-dsl-for-html-emails.htm)
 * [Fixing Protocols In My ColdFusion Custom Tag DSL For HTML Emails](https://www.bennadel.com/blog/4123-fixing-protocols-in-my-coldfusion-custom-tag-dsl-for-html-emails.htm)
 * [Yahoo! Mail Does Not Render Anchor Tags With Encoded HREF Attributes](https://www.bennadel.com/blog/4115-yahoo-mail-does-not-render-anchor-tags-with-encoded-href-attributes.htm)
