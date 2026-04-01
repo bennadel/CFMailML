@@ -1,0 +1,66 @@
+services:
+
+  # Adobe ColdFusion server.
+  # http://localhost:8081/
+  #
+  # Administrator / CFIDE:
+  # - Url: http://localhost:8081/CFIDE/administrator/index.cfm
+  # - Password: commandbox
+  acf:
+    image: "cfmailml-acf:dev"
+    pull_policy: "never"
+    build:
+      context: "."
+      dockerfile: "docker/acf/Dockerfile"
+    ports:
+      - "8081:8080"
+    volumes:
+      - "./:/app"
+      - "../cfmailml/:/cfmailml"
+    networks:
+      - app_network
+    healthcheck:
+      test: "echo hello"
+    depends_on:
+      mail:
+        condition: service_healthy
+
+  # Lucee CFML server.
+  # http://localhost:8082/
+  #
+  # Administrator:
+  # - Url: http://localhost:8082/lucee/admin/server.cfm
+  # - Password: commandbox
+  lucee:
+    image: "cfmailml-lucee:dev"
+    pull_policy: "never"
+    build:
+      context: "."
+      dockerfile: "docker/lucee/Dockerfile"
+    ports:
+      - "8082:8080"
+    volumes:
+      - "./:/app"
+      - "../cfmailml/:/cfmailml"
+    networks:
+      - app_network
+    healthcheck:
+      test: "echo hello"
+    depends_on:
+      mail:
+        condition: service_healthy
+
+  # SMTP server.
+  # http://localhost:8025/
+  mail:
+    image: "mailhog/mailhog:latest"
+    ports:
+      - "8025:8025"
+    networks:
+      - app_network
+    healthcheck:
+      test: "echo hello"
+
+networks:
+  app_network:
+    name: cfmailml_network

@@ -1,0 +1,128 @@
+
+<!--- Import custom tag libraries. --->
+<cfimport prefix="core" taglib="../../../cfmailml/core/" />
+<cfimport prefix="html" taglib="../../../cfmailml/core/html/" />
+<cfimport prefix="shared" taglib="./" />
+
+<!--- // ------------------------------------------------------------------------- // --->
+<!--- // ------------------------------------------------------------------------- // --->
+
+<cfswitch expression="#thistag.executionMode#">
+	<cfcase value="start">
+		<cfoutput>
+
+			<cfset theme = getBaseTagData( "cf_email" ).theme />
+			<cfset theme.importUrls.append( "https://fonts.googleapis.com/css?family=Poppins:100,200,300,500|Roboto:100,200,300,400,500,600,700" ) />
+
+			<!--- Update the base fonts for the custom font-family import. --->
+			<core:HtmlEntityTheme entity="h1, h2, h3, h4, h5, th">
+				font-family: Poppins, BlinkMacSystemFont, helvetica, arial, sans-serif ;
+				font-weight: 500 ; <!--- Highest that Poppins goes. --->
+			</core:HtmlEntityTheme>
+			<core:HtmlEntityTheme entity="blockquote, img, li, p, td">
+				font-family: Roboto, BlinkMacSystemFont, helvetica, arial, sans-serif ;
+			</core:HtmlEntityTheme>
+			<!---
+				Since MSO / Outlook clients won't load remote fonts, we have to define a
+				solid fallback font family and weight.
+			--->
+			<core:HeaderContent>
+				<core:IfMso>
+					<style type="text/css">
+						h1, h2, h3, h4, h5, th {
+							font-family: helvetica, arial, sans-serif !important ;
+							font-weight: 700 !important ;
+						}
+						blockquote, body, img, li, p, td {
+							font-family: helvetica, arial, sans-serif !important ;
+						}
+					</style>
+				</core:IfMso>
+			</core:HeaderContent>
+
+		</cfoutput>
+	</cfcase>
+	<cfcase value="end">
+		<cfoutput>
+
+			<cfset tableClass = "c-#createUUID()#" />
+			<cfset contentClass = "c-#createUUID()#" />
+			<cfset gutterClass = "c-#createUUID()#" />
+
+			<core:Styles variable="tableStyle">
+				border: 1px solid ##ebecee ;
+				border-width: 0px 1px 1px 1px ;
+			</core:Styles>
+			<core:Styles variable="topBorderStyle">
+				background-color: ##ff3366 ;
+				font-size: 1px ;
+				height: 2px ;
+				line-height: 2px ;
+			</core:Styles>
+			<core:Styles variable="contentStyle">
+				padding: 45px 0px 30px 0px ;
+			</core:Styles>
+			<core:Styles variable="footerStyle">
+				background-color: ##f8f8fa ;
+				border-top: 1px solid ##ebecee ;
+				color: ##6c7689 ;
+				font-size: 12px ;
+				font-weight: 400 ;
+				line-height: 17px ;
+				padding: 20px 0px 20px 0px ;
+			</core:Styles>
+			<core:Styles variable="footerLinkStyle">
+				color: ##276ee5 ;
+			</core:Styles>
+			<core:MaxWidthStyles>
+				.#tableClass# {
+					border-width: 0px 0px 0px 0px ;
+					width: 100% ;
+				}
+
+				.#gutterClass# {
+					width: 20px ;
+				}
+
+				.#contentClass# {
+					padding: 20px 0px 20px 0px ;
+				}
+			</core:MaxWidthStyles>
+
+			<html:table width="#theme.width#" align="center" class="#tableClass#" style="#tableStyle#">
+			<html:tr>
+				<html:td colspan="3" style="#topBorderStyle#">
+					<br />
+				</html:td>
+			</html:tr>
+			<html:tr>
+				<html:td width="60" class="#gutterClass#">
+					<!--- Left margin. ---><br />
+				</html:td>
+				<html:td class="#contentClass#" style="#contentStyle#">
+
+					#thistag.generatedContent#
+
+				</html:td>
+				<html:td width="60" class="#gutterClass#">
+					<!--- Right margin. ---><br />
+				</html:td>
+			</html:tr>
+			<html:tr>
+				<html:td colspan="3" align="center" style="#footerStyle#">
+
+					Questions?
+					<html:a href="https://www.bennadel.com" decoration="false" style="#footerLinkStyle#">I'm here to help.</html:a>
+
+				</html:td>
+			</html:tr>
+			</html:table>
+
+			<shared:Footer />
+
+			<!--- Reset the generated content since we're overriding the output. --->
+			<cfset thistag.generatedContent = "" />
+
+		</cfoutput>
+	</cfcase>
+</cfswitch>

@@ -1,0 +1,23 @@
+{
+	"name": "cfmailml-lucee",
+	"app": {
+		"cfengine": "lucee@6.2.5.48"
+	},
+	"profile": "development",
+	"web": {
+		"host": "127.0.0.1",
+		"bindings": {
+			"HTTP": {
+				"enable": true,
+				"listen": 8080
+			},
+			"SSL": {
+				"enable": true,
+				"listen": 8443
+			}
+		},
+		"blockCFAdmin": false,
+		"blockSensitivePaths": true,
+		"blockFlashRemoting": true
+	}
+}
