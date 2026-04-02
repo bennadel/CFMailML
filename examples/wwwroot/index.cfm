@@ -99,10 +99,35 @@
 
 			a {
 				color: inherit ;
+			}
+
+			.items {
+				margin: 0 ;
+				padding: 0 ;
+			}
+			.items_item {
+				list-style-type: none ;
+				margin: 0 0 5px 15px ;
+			}
+			.items_link {
+				border: 1px solid ##eaeaea ;
+				border-radius: 2px ;
+				display: flex ;
+				flex-direction: column ;
+				gap: 0 ;
+				padding: 5px 10px ;
+				text-decoration: none ;
 
 				&[data-selected] {
-					background-color: yellow ;
+					background-color: ##ffff04 ;
+					border-color: ##d5d500 ;
 				}
+			}
+			.items_name {
+				text-decoration: underline ;
+			}
+			.items_description {
+				opacity: 0.7 ;
 			}
 
 		</style>
@@ -118,15 +143,19 @@
 				Platforms
 			</h2>
 
-			<ul>
+			<ul class="items">
 				<cfloop array="#platforms#" item="platform">
-					<li>
+					<li class="items_item">
 						<a
 							href="#platform.authority#/index.cfm?exampleID=#encodeForUrl( exampleID )#"
 							<cfif ( platform.id eq platformID )>
 								data-selected
 							</cfif>
-							>#encodeForHtml( platform.name )#</a>
+							class="items_link">
+							<span class="items_name">
+								#encodeForHtml( platform.name )#
+							</span>
+						</a>
 					</li>
 				</cfloop>
 			</ul>
@@ -135,16 +164,22 @@
 				Examples
 			</h2>
 
-			<ul>
+			<ul class="items">
 				<cfloop array="#examples#" item="example">
-					<li>
+					<li class="items_item">
 						<a
 							href="?exampleID=#encodeForUrl( example.id )#"
 							<cfif ( example.id eq exampleID )>
 								data-selected
 							</cfif>
-							>Example #encodeForUrl( example.id )#</a>
-						- #encodeForHtml( example.name )#
+							class="items_link">
+							<span class="items_name">
+								Example #encodeForUrl( example.id )#
+							</span>
+							<span class="items_description">
+								#encodeForHtml( example.name )#
+							</span>
+						</a>
 					</li>
 				</cfloop>
 			</ul>
