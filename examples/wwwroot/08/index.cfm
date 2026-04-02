@@ -1,7 +1,7 @@
 
 <!--- Import custom tag libraries. --->
 <cfimport prefix="core" taglib="../../../cfmailml/core/" />
-<cfimport prefix="ex8" taglib="./ex8/" />
+<cfimport prefix="ex8" taglib="." />
 <cfimport prefix="html" taglib="../../../cfmailml/core/html/" />
 
 <!--- // ------------------------------------------------------------------------- // --->
@@ -32,7 +32,7 @@
 			Tags. However, this is all still "just" ColdFusion. Which means, we can use
 			every tool in the tool-belt, including plain-old includes.
 		--->
-		<cfinclude template="./ex8/description.cfm" />
+		<cfinclude template="./description.cfm" />
 
 		<html:hr />
 

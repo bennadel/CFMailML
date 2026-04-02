@@ -2,7 +2,7 @@
 <!--- Import custom tag libraries. --->
 <cfimport prefix="core" taglib="../../../cfmailml/core/" />
 <cfimport prefix="html" taglib="../../../cfmailml/core/html/" />
-<cfimport prefix="ex12" taglib="./ex12/" />
+<cfimport prefix="ex12" taglib="./" />
 
 <!--- // ------------------------------------------------------------------------- // --->
 <!--- // ------------------------------------------------------------------------- // --->

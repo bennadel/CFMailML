@@ -1,7 +1,7 @@
 
 <!--- Import custom tag libraries. --->
 <cfimport prefix="core" taglib="../../../cfmailml/core/" />
-<cfimport prefix="ex9" taglib="./ex9/" />
+<cfimport prefix="ex9" taglib="./" />
 <cfimport prefix="html" taglib="../../../cfmailml/core/html/" />
 
 <!--- // ------------------------------------------------------------------------- // --->
@@ -19,7 +19,7 @@
 		have a "base" theme file and then a "comments" theme file after that (for styles
 		very specific to THIS email).
 	--->
-	<cfinclude template="./ex9/theme.cfm" />
+	<cfinclude template="./theme.cfm" />
 	<ex9:Body>
 
 		<html:h1>

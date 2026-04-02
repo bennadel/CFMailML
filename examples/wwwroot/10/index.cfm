@@ -32,7 +32,7 @@
 				significantly more formatting.
 			</html:p>
 
-			<html:pre><html:code>#htmlEditFormat( fileRead( expandPath( "./ex10/code-sample.txt" ) ) )#</html:code></html:pre>
+			<html:pre><html:code>#encodeForHtml( fileRead( expandPath( "./code-sample.txt" ) ) )#</html:code></html:pre>
 
 			<html:p>
 				Easy peasy, lemon squeezey!

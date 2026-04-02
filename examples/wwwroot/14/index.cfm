@@ -10,7 +10,7 @@
 	subject="Custom fonts and weights"
 	teaser="Falling back with managed expectations">
 
-	<cfinclude template="./ex14/theme.cfm" />
+	<cfinclude template="./theme.cfm" />
 
 	<!--- Update the base fonts for the custom font-family import. --->
 	<core:HtmlEntityTheme entity="h1, h2, h3, h4, h5, th">

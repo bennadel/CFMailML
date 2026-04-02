@@ -1,67 +1,164 @@
-<!doctype html>
-<html lang="en">
-<head>
-	<title>
-		CFMailML Examples
-	</title>
-</head>
-<body>
+<cfscript>
 
-	<h1>
-		Email DSL Using ColdFusion Custom Tags
-	</h1>
+	param name="url.exampleID" type="numeric" default=0;
 
-	<h2>
-		Examples
-	</h2>
+	exampleID = val( url.exampleID );
+	exampleSlug = numberFormat( exampleID, "00" );
+	examples = [
+		{ id: 1,  name: "Hello world" },
+		{ id: 2,  name: "Inline themeing" },
+		{ id: 3,  name: "Encapsulated themeing" },
+		{ id: 4,  name: "Desktop / mobile layouts" },
+		{ id: 5,  name: "Media queries" },
+		{ id: 6,  name: "Dark mode" },
+		{ id: 7,  name: "Multi-slot projection" },
+		{ id: 8,  name: "Encapsulation technqiues" },
+		{ id: 9,  name: "Comment email" },
+		{ id: 10, name: "Code snippets" },
+		{ id: 11, name: "Symbols" },
+		{ id: 12, name: "Providers" },
+		{ id: 13, name: "Margins" },
+		{ id: 14, name: "Font-Weight" },
+		{ id: 15, name: "Un-encoded protocols" }
+	];
 
-	<ul>
-		<li>
-			<a href="./01/index.cfm">Example 1</a> - Hello world
-		</li>
-		<li>
-			<a href="./02/index.cfm">Example 2</a> - Inline themeing
-		</li>
-		<li>
-			<a href="./03/index.cfm">Example 3</a> - Encapsulated themeing
-		</li>
-		<li>
-			<a href="./04/index.cfm">Example 4</a> - Desktop / mobile layouts
-		</li>
-		<li>
-			<a href="./05/index.cfm">Example 5</a> - Media queries
-		</li>
-		<li>
-			<a href="./06/index.cfm">Example 6</a> - Dark mode
-		</li>
-		<li>
-			<a href="./07/index.cfm">Example 7</a> - Multi-slot projection
-		</li>
-		<li>
-			<a href="./08/index.cfm">Example 8</a> - Encapsulation technqiues
-		</li>
-		<li>
-			<a href="./09/index.cfm">Example 9</a> - Comment email
-		</li>
-		<li>
-			<a href="./10/index.cfm">Example 10</a> - Code snippets
-		</li>
-		<li>
-			<a href="./11/index.cfm">Example 11</a> - Symbols
-		</li>
-		<li>
-			<a href="./12/index.cfm">Example 12</a> - Providers
-		</li>
-		<li>
-			<a href="./13/index.cfm">Example 13</a> - Margins
-		</li>
-		<li>
-			<a href="./14/index.cfm">Example 14</a> - Font-Weight
-		</li>
-		<li>
-			<a href="./15/index.cfm">Example 15</a> - Un-encoded protocols
-		</li>
-	</ul>
+	platformID = server.keyExists( "lucee" )
+		? "lucee"
+		: "acf"
+	;
+	platforms = [
+		{
+			id: "acf",
+			name: "Adobe ColdFusion",
+			authority: "http://localhost:8081"
+		},
+		{
+			id: "lucee",
+			name: "Lucee CFML",
+			authority: "http://localhost:8082"
+		}
+	];
 
-</body>
-</html>
+</cfscript>
+<cfoutput>
+	<!doctype html>
+	<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>
+			CFMailML Examples
+		</title>
+		<style type="text/css">
+
+			html {
+				box-sizing: content-box ;
+
+				& * {
+					box-sizing: inherit ;
+				}
+			}
+
+			body {
+				display: flex ;
+				font-family: Avenir, Montserrat, Corbel, URW Gothic, source-sans-pro, sans-serif ;
+				height: 100vh ;
+				margin: 0 ;
+				overflow: hidden ;
+				padding: 0 ;
+			}
+
+			main {
+				background-color: ##f6f6f6 ;
+				flex: 0 0 auto ;
+				overflow: auto ;
+				overscroll-behavior: contain ;
+				padding: 10px ;
+			}
+
+			aside {
+				flex: 1 1 auto ;
+				min-width: 700px ;
+			}
+
+			iframe {
+				border: 0 ;
+				display: block ;
+				min-height: 100vh ;
+				max-height: 100vh ;
+				width: 100% ;
+			}
+
+			h1 {
+				margin-top: 0 ;
+			}
+
+			ul {
+				margin-bottom: 0 ;
+			}
+
+			a {
+				color: inherit ;
+
+				&[data-selected] {
+					background-color: yellow ;
+				}
+			}
+
+		</style>
+	</head>
+	<body>
+		<main>
+
+			<h1>
+				CFMailML
+			</h1>
+
+			<h2>
+				Platforms
+			</h2>
+
+			<ul>
+				<cfloop array="#platforms#" item="platform">
+					<li>
+						<a
+							href="#platform.authority#/index.cfm?exampleID=#encodeForUrl( exampleID )#"
+							<cfif ( platform.id eq platformID )>
+								data-selected
+							</cfif>
+							>#encodeForHtml( platform.name )#</a>
+					</li>
+				</cfloop>
+			</ul>
+
+			<h2>
+				Examples
+			</h2>
+
+			<ul>
+				<cfloop array="#examples#" item="example">
+					<li>
+						<a
+							href="?exampleID=#encodeForUrl( example.id )#"
+							<cfif ( example.id eq exampleID )>
+								data-selected
+							</cfif>
+							>Example #encodeForUrl( example.id )#</a>
+						- #encodeForHtml( example.name )#
+					</li>
+				</cfloop>
+			</ul>
+
+		</main>
+		<aside>
+
+			<cfif exampleID>
+				<iframe
+					src="./#encodeForUrl( exampleSlug )#/index.cfm"
+				></iframe>
+			</cfif>
+
+		</aside>
+	</body>
+	</html>
+</cfoutput>
