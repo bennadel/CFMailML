@@ -31,7 +31,7 @@ component {
 
 	// Define the server mappings (for components and expandPath() calls).
 	this.wwwRoot = getDirectoryFromPath( getCurrentTemplatePath() );
-	this.mappings = [];
+	this.mappings = {};
 
 	// Define to mail server settings.
 	// this.smtpServerSettings = this.config.smtp;
@@ -50,6 +50,8 @@ component {
 			showDebugOutput = false
 		);
 
+		request.platform = platformGet();
+
 	}
 
 
@@ -64,4 +66,43 @@ component {
 
 	}
 
+	// ---
+	// PRIVATE METHODS.
+	// ---
+
+	/**
+	* I get details about the current runtime engine.
+	*/
+	private struct function platformGet() {
+
+		if ( server.keyExists( "lucee" ) ) {
+
+			var slug = "lucee";
+			var name = "Lucee CFML";
+			var version = {
+				major: listFirst( server.lucee.version, "." ),
+				details: server.lucee.version
+			};
+
+		} else {
+
+			var slug = "acf";
+			var name = "Adobe ColdFusion";
+			var version = {
+				major: listFirst( server.coldfusion.productVersion ),
+				details: server.coldfusion.productVersion
+			};
+
+		}
+
+		return {
+			id: "#slug##version.major#",
+			slug: slug,
+			name: name,
+			version: version
+		};
+
+	}
+
 }
+	

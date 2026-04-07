@@ -48,7 +48,7 @@
 		cachedWithin = "request"
 		{
 
-		return( "$$HeaderStylesRunOnceCache:#hash( arguments.content )#" );
+		return "$$HeaderStylesRunOnceCache:#hash( arguments.content )#";
 
 	}
 
@@ -68,21 +68,21 @@
 
 		if ( ! arguments.injectImportLineFlag ) {
 
-			return( arguments.content );
+			return arguments.content;
 
 		}
 
 		if ( findNoCase( arguments.content, "!important" ) ) {
 
 			throw(
-				type = "UnexpectedImportant",
+				type = "CFMailML.UnexpectedImportant",
 				message = "HeaderStyles cannot contain !important if it is also being injected.",
 				extendedInfo = "Content: #arguments.content#"
 			);
 
 		}
 
-		return( reReplace( arguments.content, "(?m)(;[ \t]*$)", " !important \1", "all" ) );
+		return reReplace( arguments.content, "(?m)(;[ \t]*$)", " !important \1", "all" );
 
 	}
 

@@ -32,63 +32,31 @@
 	// ------------------------------------------------------------------------------- //
 
 	/**
-	* I walk the custom tag list looking for the first ancestor that as a "slots"
+	* I walk the custom tag list looking for the first ancestor that has a "slots"
 	* property defined. Returns the slots property or throws an error if it can't be
 	* found.
 	*/
 	public struct function getParentSlots() {
 
-		var instanceCounts = {};
+		var stack = getBaseTagData( "cf_email" )
+			.getCustomTagStack()
+		;
 
-		for ( var tagName in variables.splitBaseTagList( getBaseTagList() ) ) {
+		for ( var element in stack ) {
 
-			if ( ! structKeyExists( instanceCounts, tagName ) ) {
+			if ( structKeyExists( element.data, "slots" ) ) {
 
-				instanceCounts[ tagName ] = 0;
-
-			}
-
-			var parentTag = getBaseTagData( tagName, ++instanceCounts[ tagName ] );
-
-			if ( structKeyExists( parentTag, "slots" ) ) {
-
-				return( parentTag.slots );
+				return element.data.slots;
 
 			}
 
 		}
 
 		throw(
-			type = "NotSlotsFound",
+			type = "CFMailML.NotSlotsFound",
 			message = "No slots object could be found in a parent tag.",
-			extendedInfo="Base tag list: #getBaseTagList()#"
+			extendedInfo ="Base tag list: #getBaseTagList()#"
 		);
-
-	}
-
-
-	/**
-	* I split the given base-tag list, returning the array of tag-names.
-	* 
-	* @value I am the list of tags-names being split.
-	*/
-	public array function splitBaseTagList( required string value )
-		cachedWithin = "request"
-		{
-
-		var tagNames = listToArray( arguments.value ).filter(
-			( tagName ) => {
-
-				// Some ColdFusion custom tags appear to be implemented as pseudo-custom
-				// tags that don't actually expose any state. As such, we have to omit
-				// these internal tags from the list otherwise our getBaseTagData() calls
-				// will blow-up.
-				return( arguments.tagName.reFindNoCase( "^cf_" ) );
-
-			}
-		);
-
-		return( tagNames );
 
 	}
 

@@ -39,7 +39,7 @@
 		cachedWithin = "request"
 		{
 
-		return( reReplace( arguments.value, """", "'", "all" ) );
+		return reReplace( arguments.value, """", "'", "all" );
 
 	}
 
@@ -120,12 +120,10 @@
 
 		}
 
-		return(
-			trim(
-				fontFamilyLine &
-				msoLineHeightRule &
-				arrayToList( uniquePropertyLines, " " )
-			)
+		return trim(
+			fontFamilyLine &
+			msoLineHeightRule &
+			arrayToList( uniquePropertyLines, " " )
 		);
 
 	}
@@ -147,6 +145,9 @@
 		required string entityStyle
 		) {
 
+		var stack = getBaseTagData( "cf_email" )
+			.getCustomTagStack()
+		;
 		var styleBlocks = [];
 
 		// To gather the cascading styles for the current Style tag, we're going to walk
@@ -161,15 +162,9 @@
 			var themeVariableName = "$$entity:theme:#arguments.entityName#";
 			var instanceCounts = {};
 
-			for ( var tagName in variables.splitBaseTagList( getBaseTagList() ) ) {
+			for ( var element in stack ) {
 
-				if ( ! structKeyExists( instanceCounts, tagName ) ) {
-
-					instanceCounts[ tagName ] = 0;
-
-				}
-
-				var parentTag = getBaseTagData( tagName, ++instanceCounts[ tagName ] );
+				var parentStyles = element.data.styles = ( element.data.styles ?: {} );
 
 				// Since we are walking UP the Tag DOM, we need to add styles in reverse
 				// order of precedence. And, since "class name" styles are more specific
@@ -178,18 +173,18 @@
 
 					var themeClassVariableName = "#themeVariableName#.#className#";
 
-					if ( len( arguments.entityClass ) && structKeyExists( parentTag, themeClassVariableName ) ) {
+					if ( len( arguments.entityClass ) && structKeyExists( parentStyles, themeClassVariableName ) ) {
 
-						arrayPrepend( styleBlocks, parentTag[ themeClassVariableName ] );
+						arrayPrepend( styleBlocks, parentStyles[ themeClassVariableName ] );
 
 					}
 
 				}
 
 				// After the class-based styles are added, check for tag-based styles.
-				if ( structKeyExists( parentTag, themeVariableName ) ) {
+				if ( structKeyExists( parentStyles, themeVariableName ) ) {
 
-					arrayPrepend( styleBlocks, parentTag[ themeVariableName ] );
+					arrayPrepend( styleBlocks, parentStyles[ themeVariableName ] );
 
 				}
 
@@ -209,7 +204,7 @@
 
 		}
 
-		return( styleBlocks );
+		return styleBlocks;
 
 	}
 
@@ -237,7 +232,7 @@
 
 		}
 
-		return( blockProperties );
+		return blockProperties;
 
 	}
 
@@ -269,32 +264,6 @@
 
 
 	/**
-	* I split the given base-tag list, returning the array of tag-names.
-	* 
-	* @value I am the list of tags-names being split.
-	*/
-	public array function splitBaseTagList( required string value )
-		cachedWithin = "request"
-		{
-
-		var tagNames = listToArray( arguments.value ).filter(
-			( tagName ) => {
-
-				// Some ColdFusion custom tags appear to be implemented as pseudo-custom
-				// tags that don't actually expose any state. As such, we have to omit
-				// these internal tags from the list otherwise our getBaseTagData() calls
-				// will blow-up.
-				return( arguments.tagName.reFindNoCase( "^cf_" ) );
-
-			}
-		);
-
-		return( tagNames );
-
-	}
-
-
-	/**
 	* I split the given style block into an array of CSS property lines.
 	* 
 	* @value I am the style block being split.
@@ -303,7 +272,7 @@
 		cachedWithin = "request"
 		{
 
-		return( listToArray( arguments.value, ";" ) );
+		return listToArray( arguments.value, ";" );
 
 	}
 
@@ -318,7 +287,7 @@
 		cachedWithin = "request"
 		{
 
-		return( reMatch( "\S+", arguments.value ) );
+		return reMatch( "\S+", arguments.value );
 
 	}
 

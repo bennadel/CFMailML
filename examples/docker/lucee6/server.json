@@ -1,5 +1,5 @@
 {
-	"name": "cfmailml-lucee",
+	"name": "cfmailml-lucee6",
 	"app": {
 		"cfengine": "lucee@6.2.5.48"
 	},

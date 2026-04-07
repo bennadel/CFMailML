@@ -64,13 +64,11 @@
 		var unencodedSuffix = "://";
 		var encodedSuffix = encodeForHtmlAttribute( unencodedSuffix );
 
-		return(
-			reReplaceNoCase(
-				arguments.encodedAttribute,
-				"^([a-z0-9]+)#encodedSuffix#",
-				"\1#unencodedSuffix#",
-				"one"
-			)
+		return reReplaceNoCase(
+			arguments.encodedAttribute,
+			"^([a-z0-9]+)#encodedSuffix#",
+			"\1#unencodedSuffix#",
+			"one"
 		);
 
 	}

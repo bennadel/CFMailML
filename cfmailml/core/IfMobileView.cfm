@@ -83,7 +83,7 @@
 
 		var parentTags = listToArray( listRest( arguments.baseTagList ) );
 
-		return(
+		return (
 			arrayContainsNoCase( parentTags, "cf_IfDesktopView" ) ||
 			arrayContainsNoCase( parentTags, "cf_IfMobileView" )
 		);

@@ -466,7 +466,84 @@
 			"$1#unecodedSuffix#"
 		);
 
-		return( fixedContent );
+		return fixedContent;
+
+	}
+
+
+	/**
+	* I get the ColdFusion custom tag stack, normalizing differences between Lucee CFML
+	* and Adobe ColdFusion / Boxlang.
+	*
+	* Caution: Lucee CFML doesn't handle the CFModule tag invocations properly - it hides
+	* the underlying tag name and doesn't expose tag data. As such, CFModule calls are
+	* skipped in terms of data but acknowledged in terms of hierarchy level. This does NOT
+	* affect Adobe ColdFusion, which properly reports CFModule tags with their tag name.
+	*/
+	public array function getCustomTagStack() {
+
+		var names = listToArray( getBaseTagList() );
+		var stack = [];
+		var level = 0;
+		var counts = {};
+
+		// Caution: we CANNOT use .map() on names because Adobe ColdFusion has a bug in
+		// which the list of tag names breaks inside a closure.
+		for ( var name in names ) {
+
+			// Some native ColdFusion tags (ex, CFDump, CFTimer, CFSaveContent) are
+			// implemented as custom tags and will show up in the list of names if they
+			// can wrap content. These tags don't expose any data (attempting to access
+			// tag data will throw an error). We need to skip over these tags entirely,
+			// before we even record the level (otherwise Lucee CFML's "skip levels" math
+			// will be broken).
+			if (
+				( name != "cfmodule" ) &&
+				( left( name, 3 ) != "cf_" )
+				) {
+
+				continue;
+
+			}
+
+			level++;
+
+			// Note: Lucee reports CFModule tags as "cfmodule" but DOES NOT expose base
+			// tag data on those instances. As such, we have to skip them in Lucee. Adobe
+			// ColdFusion reports CFModule tags using "cf_" notation. As such, we neither
+			// have to skip them nor worry about any special logic.
+			if ( name == "cfmodule" ) {
+
+				continue;
+
+			}
+
+			var instance = counts[ name ] = ( ( counts[ name ] ?: 0 ) + 1 );
+
+			// Adobe ColdFusion and Lucee CFML diverge in how they traverse the tag stack.
+			// Search offset is a normalized value that can be used to locate the same tag
+			// in both platforms.
+			var searchOffset = structKeyExists( server, "lucee" )
+				// Lucee CFML uses "skip levels" in getBaseTagData().
+				? ( level - 1 )
+				// Adobe ColdFusion uses "instance count" in getBaseTagData().
+				: instance
+			;
+
+			arrayAppend(
+				stack,
+				{
+					name: name,
+					data: getBaseTagData( name, searchOffset ),
+					level: level,
+					instance: instance,
+					searchOffset: searchOffset
+				}
+			);
+
+		}
+
+		return stack;
 
 	}
 
@@ -504,7 +581,7 @@
 			}
 		);
 
-		return( minifiedContent );
+		return minifiedContent;
 
 	}
 
@@ -534,12 +611,10 @@
 
 		}
 
-		var result = javaCast( "string", arguments.input ).replaceAll(
+		return javaCast( "string", arguments.input ).replaceAll(
 			javaCast( "string", arguments.patternText ),
 			javaCast( "string", arguments.replacementText )
 		);
-
-		return( result );
 
 	}
 

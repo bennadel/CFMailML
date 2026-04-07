@@ -1,5 +1,5 @@
 {
-	"name": "cfmailml-acf",
+	"name": "cfmailml-acf2025",
 	"app": {
 		"cfengine": "adobe@2025.0.6"
 	},
@@ -21,6 +21,6 @@
 		"blockFlashRemoting": true
 	},
 	"scripts": {
-		"onServerInitialInstall": "cfpm install debugger,mail"
+		"onServerInitialInstall": "cfpm install debugger"
 	}
 }

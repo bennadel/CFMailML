@@ -86,11 +86,11 @@
 
 		if ( arrayLen( matches ) ) {
 
-			return( right( matches[ 1 ], 7 ) );
+			return right( matches[ 1 ], 7 );
 
 		} else {
 
-			return( "" );
+			return "";
 
 		}
 

@@ -34,7 +34,7 @@
 		cachedWithin = "request"
 		{
 
-		return( listToArray( arguments.value, " " ) );
+		return listToArray( arguments.value, " " );
 
 	}
 

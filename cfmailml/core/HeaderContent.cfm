@@ -44,7 +44,7 @@
 		cachedWithin = "request"
 		{
 
-		return( "$$HeaderContentRunOnceCache:#hash( arguments.content )#" );
+		return "$$HeaderContentRunOnceCache:#hash( arguments.content )#";
 
 	}
 

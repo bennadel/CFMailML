@@ -22,20 +22,17 @@
 		{ id: 15, name: "Un-encoded protocols" }
 	];
 
-	platformID = server.keyExists( "lucee" )
-		? "lucee"
-		: "acf"
-	;
+	platformID = request.platform.id;
 	platforms = [
 		{
-			id: "acf",
-			name: "Adobe ColdFusion",
-			authority: "http://localhost:8081"
+			id: "acf2025",
+			name: "Adobe ColdFusion 2025",
+			authority: "http://localhost:8080"
 		},
 		{
-			id: "lucee",
-			name: "Lucee CFML",
-			authority: "http://localhost:8082"
+			id: "lucee6",
+			name: "Lucee CFML 6",
+			authority: "http://localhost:8081"
 		}
 	];
 
