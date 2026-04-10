@@ -19,7 +19,8 @@
 		{ id: 12, name: "Providers" },
 		{ id: 13, name: "Margins" },
 		{ id: 14, name: "Font-Weight" },
-		{ id: 15, name: "Un-encoded protocols" }
+		{ id: 15, name: "Un-encoded protocols" },
+		{ id: 16, name: "User Generated Content" }
 	];
 
 	platformID = request.platform.id;
