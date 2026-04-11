@@ -7,6 +7,9 @@ ENV APP_DIR=/app/wwwroot
 # Set the server admin password.
 ENV cfconfig_adminPassword=commandbox
 
+# Disable whitespace management so ACF doesn't strip-out needed spaces.
+ENV cfconfig_whitespaceManagement=false
+
 # Copy the server.json so that CommandBox can pre-install the CFML engine during the
 # Docker build. This uses the FINALIZE_STARTUP flag to generate an authoritative startup
 # script, which means CommandBox doesn't have to re-download the CFML engine or re-
