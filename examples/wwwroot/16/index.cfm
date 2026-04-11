@@ -35,7 +35,7 @@
 		<ex16:UserGeneratedContent>
 			<!---
 				Part of the power of CFMailML is that we can scope styles to a tag
-				context. The following HtmlEntityTheme tags will define stles that will
+				context. The following HtmlEntityTheme tags will define styles that will
 				only be available inside the UserGeneratedContent tag.
 			--->
 			<core:HtmlEntityTheme entity="p, li">

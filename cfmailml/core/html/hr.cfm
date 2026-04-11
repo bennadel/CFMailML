@@ -1,3 +1,4 @@
+<cfmodule template="../TrimOutput.cfm">
 
 <!--- Get default margins for entity. --->
 <cfset entityMargins = getBaseTagData( "cf_email" ).providers[ "margins.hr" ] />
@@ -33,9 +34,12 @@
 
 			</cfmodule>
 
-			<!--- Make sure this tag has NO BODY. --->
-			<cfexit method="exitTag" />
-
 		</cfoutput>
 	</cfcase>
 </cfswitch>
+
+<!--- Reset the generated content since we're overriding the output. --->
+<cfset thistag.generatedContent = "" />
+
+<!--- End of fanatical whitespace management. --->
+</cfmodule><cfexit method="exitTemplate" />

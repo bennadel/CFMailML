@@ -1,3 +1,4 @@
+<cfmodule template="../TrimOutput.cfm">
 
 <!--- Define custom tag attributes. --->
 <cfparam name="attributes.class" type="string" default="" />
@@ -24,9 +25,12 @@
 				#thistag.generatedContent#
 			</li>
 
-			<!--- Reset the generated content since we're overriding the output. --->
-			<cfset thistag.generatedContent = "" />
-
 		</cfoutput>
 	</cfcase>
 </cfswitch>
+
+<!--- Reset the generated content since we're overriding the output. --->
+<cfset thistag.generatedContent = "" />
+
+<!--- End of fanatical whitespace management. --->
+</cfmodule><cfexit method="exitTemplate" />
