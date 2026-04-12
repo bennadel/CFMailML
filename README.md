@@ -68,22 +68,26 @@ The above ColdFusion page doesn't send an email. In fact, the CFMailML project d
 
 How you capture and send email is going to be very particular to your application. I like to define my email templates as standalone `.cfm` pages. Then, I `CFInclude` them into either a `CFSaveContent` buffer or a `CFMail` tag directly:
 
-```cfml
-public void function sendWelcomeEmail( required string toUser ) {
+```cfc
+component hint = "I provide email sending methods." {
 
-	// Capture the CFMailMl template into a local variable/buffer.
-	// Since I'm using a simple include, the CFMailML template will
-	// have access to THIS component and all the LOCAL variables
-	// defined in this function call.
-	savecontent variable = "local.body" {
-		include "/emails/welcome.cfm";
+	public void function sendWelcomeEmail( required string toUser ) {
+
+		// Capture the CFMailMl template into a local variable/buffer.
+		// Since I'm using a simple include, the CFMailML template will
+		// have access to THIS component and all the LOCAL variables
+		// defined in this function call.
+		savecontent variable = "local.body" {
+			include "/emails/welcome.cfm";
+		}
+
+		sendEmail(
+			to = toUser,
+			subject = "Welcome to the app",
+			body = body
+		);
+
 	}
-
-	sendEmail(
-		to = toUser,
-		subject = "Welcome to the app",
-		body = body
-	);
 
 }
 ```
