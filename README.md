@@ -39,12 +39,16 @@ All of that insanity that you see &mdash; that's what's required to get your ema
 
 ## Prior Art
 
+I've been using the CFMailML concept for years but didn't have a name for it. Here is all the work I have prior to the codification of this project.
+
 ### Git Repositories
 
 These were my original repositories. I'm now attempting to collapse them into a single shared repository that works for both CFML engines.
 
 * [Original Lucee CFML version](https://github.com/bennadel/ColdFusion-Custom-Tag-Emails).
 * [Original Adobe ColdFusion version](https://github.com/bennadel/ColdFusion-Custom-Tag-Email-ACF).
+
+Note that at the time of this writing, Boxlang's CFML parser does not support the `<cfimport>` tag for ColdFusion custom tags. As such, this library doesn't work in Boxlang.
 
 ### Blog Posts
 
