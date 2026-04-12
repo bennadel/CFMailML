@@ -1,9 +1,40 @@
 
 # CFMailML (CFMail Markup Language)
 
-A DSL (Domain Specific Language) for rendering `CFMail` templates without a build step.
-
 This is a <mark>**work in progress**</mark>.
+
+CFMailML is a set of ColdFusion custom tags that create a DSL (Domain Specific Language) for rendering `CFMail` templates without a build step. This DSL is an attempt to present like basic HTML on the surface; then, render cross email-client compatible code that hides ~~all~~ (er, some) of the complexity required to get email templates to render the same whether your readers are using Outlook for Desktop or GMail for Web.
+
+For example, you write your straightforward "HTML" with imported ColdFusion custom tags:
+
+```cfml
+<html:p>
+	<html:a href="https://www.bennadel.com/">Visit my Site</html:a>
+</html:p>
+```
+
+And what you get in your rendered page is:
+
+```html
+<p class="html-entity-p" style="font-family:helvetica,arial,sans-serif; mso-line-height-rule:exactly; color:#22252b; font-size:18px; font-weight:400; line-height:25px; margin:0px; padding:0px;">
+	<a href="https://www.bennadel.com/" target="_blank" class="html-entity-a" style="color:#3f51b5; text-decoration:underline;"
+		>Visit my Site</a>
+</p>
+
+<table aria-hidden="true" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="height:16px; margin:0px;">
+<tr>
+	<td style="font-family:arial,verdana,helvetica,sans-serif; mso-line-height-rule:exactly; font-size:16px; height:16px; line-height:70%; overflow:hidden;">
+		<div style="height:16px; overflow:hidden;">
+			&nbsp;<br />
+		</div>
+	</td>
+</tr>
+</table>
+```
+
+All of that insanity that you see &mdash; that's what's required to get your email to look good in all the various email clients. You think it's 2026? Maybe in your world; but for email clients, it's still 2015. And [according to Litmus][litmus-report], Outlook Desktop is still the 3rd-most-used email client.
+
+[litmus-report]: https://www.litmus.com/email-client-market-share
 
 
 ## Prior Art
@@ -51,7 +82,7 @@ This feature, which is enabled by default on Adobe ColdFusion servers, [can some
 
 * Disable whitespace management (recommended). This feature feels like "magic"; and generally speaking, we want less magic in our code.
 
-* Move sibling ColdFusion custom tags onto the same line of code (spaces are handled better than newlines in Adobe's whitespace management).
+* Move sibling ColdFusion custom tags onto the same line of code. Spaces seem to be handled better than newlines in Adobe's whitespace management.
 
 * Make sure the custom tags are wrapped in a `CFOutput` tag. For some reasons, the whitespace management makes fewer mistakes when it's wrapped in `CFOutput`.
 
