@@ -37,6 +37,64 @@ All of that insanity that you see &mdash; that's what's required to get your ema
 [litmus-report]: https://www.litmus.com/email-client-market-share
 
 
+## Installation
+
+To use the CFMailML project, you can download this repository and then copy the `cfmailml` directory into your application. The location of the directory is up to you - it just needs to be accessible as an import path for `<cfimport>`. Personally, I like to keep it alongside my email templates so that all my email authoring is collocated.
+
+Once the `cfmailml` directory is copied into your application, there are two sets of imports / tag prefixes to setup:
+
+* `<core:*>` - these are the higher-level architectural custom tags.
+* `<html:*>` - these are the lower-level "HTML" custom tags.
+
+At a minimum, every email template must be wrapped in a single `<core:Email>` tag. This sets up the underlying data structures and renders the final HTML output. A minimal CFMailML email might look like this:
+
+```cfml
+<cfimport prefix="core" taglib="./cfmailml/core/" />
+<cfimport prefix="html" taglib="./cfmailml/core/html/" />
+
+<core:Email subject="Welcome to CFMailML">
+	<html:h1>
+		CFMailML Makes ColdFusion Emails Fun
+	</html:h1>
+	<html:p>
+		And a little bit easier to write, I hope.
+	</html:p>
+</core:Email>
+```
+
+Please note that the `<cfimport>` tags are **compile time constructs**. This means that you can't using per-application path mappings for the `taglib` attribute. It also means that the `<cfimport>` tags need to be in _every template_ that references the associated `prefix`.
+
+The above ColdFusion page doesn't send an email. In fact, the CFMailML project doesn't know anything about _how_ email gets delivered. It doesn't care if you're sending email using the SMTP protocol with `CFMail` or an API request with `CFHttp`. The CFMailML project is only concerned with _rendering HTML_. It's still up to your project mechanics to capture that HTML output and send it.
+
+How you capture and send email is going to be very particular to your application. I like to define my email templates as standalone `.cfm` pages. Then, I `CFInclude` them into either a `CFSaveContent` buffer or a `CFMail` tag directly:
+
+```cfml
+public void function sendWelcomeEmail( required string toUser ) {
+
+	// Capture the CFMailMl template into a local variable/buffer.
+	// Since I'm using a simple include, the CFMailML template will
+	// have access to THIS component and all the LOCAL variables
+	// defined in this function call.
+	savecontent variable = "local.body" {
+		include "/emails/welcome.cfm";
+	}
+
+	sendEmail(
+		to = toUser,
+		subject = "Welcome to the app",
+		body = body
+	);
+
+}
+```
+
+One benefit of defining your CFMailML templates as standalone `.cfm` files is that you can easily test them by including them into a development SMTP workflow or a static rendering experience. All you have to do is mock-out any data that [the **pure email template**][blog-4581] might need before you `CFInclude` it.
+
+[blog-4581]: https://www.bennadel.com/blog/4581-define-your-email-content-using-pure-templates-in-coldfusion.htm "Read article: Define Your Email Content Using Pure Templates In ColdFusion"
+
+If you ever need to update the CFMailML library, all you have to do is replace the `cfmailml` directory with the latest version.
+
+
 ## Prior Art
 
 I've been using the CFMailML concept for years but didn't have a name for it. Here is all the work I have prior to the codification of this project.
@@ -79,7 +137,7 @@ These were my exploratory blog posts about this topic (using custom tags to gene
 Within the internals of the `core/html` tags, I try to _never_ add additional, meaningful whitespace to the rendered output. This way, if you have two ColdFusion custom tags butting-up against each other, the resultant HTML tags will also be butting-up against each other. In Adobe ColdFusion, however, there is an "Enable Whitespace Management" feature in the CFAdmin that can be _too aggressive_ about whitespace elimination:
 
 > **Enable Whitespace Management**
-> 
+>
 > \[x\] Reduces the file size of the pages that ColdFusion returns to the browser by removing many of the extra spaces, tabs, and carriage returns that ColdFusion might otherwise persist from the CFML source file.
 
 This feature, which is enabled by default on Adobe ColdFusion servers, [can sometimes remove the necessary whitespace][blog-4887] that separates your tags. If this happens, you have a fwe choices (from the edge-cases that I tested):
