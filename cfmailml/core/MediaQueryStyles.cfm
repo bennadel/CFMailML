@@ -3,7 +3,6 @@
 <cfparam name="attributes.injectImportant" type="boolean" default="true" />
 <cfparam name="attributes.media" type="string" default="screen" />
 <cfparam name="attributes.queryName" type="string" />
-<cfparam name="attributes.runOnce" type="boolean" default="true" />
 <cfparam name="attributes.queryValue" type="string" />
 
 <!--- // ------------------------------------------------------------------------- // --->
@@ -15,8 +14,7 @@
 
 			<cfmodule
 				template="./HeaderStyles.cfm"
-				injectImportant="#attributes.injectImportant#"
-				runOnce="#attributes.runOnce#">
+				injectImportant="#attributes.injectImportant#">
 				@media #attributes.media# and ( #attributes.queryName#: #attributes.queryValue# ) {
 
 					#thistag.generatedContent#

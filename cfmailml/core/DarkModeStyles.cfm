@@ -1,7 +1,6 @@
 
 <!--- Define custom tag attributes. --->
 <cfparam name="attributes.injectImportant" type="boolean" default="true" />
-<cfparam name="attributes.runOnce" type="boolean" default="true" />
 
 <!--- // ------------------------------------------------------------------------- // --->
 <!--- // ------------------------------------------------------------------------- // --->
@@ -17,8 +16,7 @@
 				template="./MediaQueryStyles.cfm"
 				queryName="prefers-color-scheme"
 				queryValue="dark"
-				injectImportant="#attributes.injectImportant#"
-				runOnce="#attributes.runOnce#">
+				injectImportant="#attributes.injectImportant#">
 				#thistag.generatedContent#
 			</cfmodule>
 

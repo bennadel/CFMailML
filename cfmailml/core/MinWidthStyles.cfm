@@ -1,7 +1,6 @@
 
 <!--- Define custom tag attributes. --->
 <cfparam name="attributes.injectImportant" type="boolean" default="true" />
-<cfparam name="attributes.runOnce" type="boolean" default="true" />
 <cfparam name="attributes.width" type="numeric" default="0" />
 
 <!--- // ------------------------------------------------------------------------- // --->
@@ -18,8 +17,7 @@
 				template="./MediaQueryStyles.cfm"
 				name="min-width"
 				value="#width#px"
-				injectImportant="#attributes.injectImportant#"
-				runOnce="#attributes.runOnce#">
+				injectImportant="#attributes.injectImportant#">
 				#thistag.generatedContent#
 			</cfmodule>
 

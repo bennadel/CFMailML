@@ -2,28 +2,12 @@
 
 	// Define custom tag attributes.
 	param name="attributes.injectImportant" type="boolean" default=true;
-	param name="attributes.runOnce" type="boolean" default=true;
 
 	// ------------------------------------------------------------------------------- //
 	// ------------------------------------------------------------------------------- //
 
 	switch ( thistag.executionMode ) {
 		case "end":
-
-			if ( attributes.runOnce ) {
-
-				cacheKey = getCacheKey( thistag.generatedContent );
-
-				if ( structKeyExists( request, cacheKey ) ) {
-
-					thistag.generatedContent = "";
-					cfexit( method="exitTag" );
-
-				}
-
-				request[ cacheKey ] = true;
-
-			}
 
 			arrayAppend(
 				getBaseTagData( "cf_email" ).headerStyleBlocks,
@@ -38,20 +22,6 @@
 
 	// ------------------------------------------------------------------------------- //
 	// ------------------------------------------------------------------------------- //
-
-	/**
-	* I return the cache key for the given tag content.
-	* 
-	* @content I am the tag content being inspected.
-	*/
-	public string function getCacheKey( required string content )
-		cachedWithin = "request"
-		{
-
-		return "$$HeaderStylesRunOnceCache:#hash( arguments.content )#";
-
-	}
-
 
 	/**
 	* I (optionally) inject the "!important" flag at the end of each CSS property line,
