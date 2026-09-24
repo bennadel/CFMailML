@@ -83,8 +83,12 @@
 					renderNodeAsTag( node, "em" );
 				break;
 				// Output text nodes as-is.
+				// --
+				// Caution: we have to get the text as HTML otherwise we'll run the risk
+				// of introducing unescaped HTML entities which can, lead to a persisted
+				// XSS attack.
 				case "##text":
-					writeOutput( node.text() );
+					writeOutput( node.outerHtml() );
 				break;
 				// For any HTML tag that we don't support as a ColdFusion custom tag,
 				// we're going to render it simply without any of the CFMailML powers.
